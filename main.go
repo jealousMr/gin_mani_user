@@ -24,8 +24,9 @@ func (s S) AddAndUpdateUserInfo(ctx context.Context, req *pb_mani.AddAndUpdateUs
 }
 
 func main() {
+	cf := conf.GetConfig()
 	logx.Infof("start mani user server")
-	lis, err := net.Listen("tcp", conf.ServerPort)
+	lis, err := net.Listen("tcp", cf.Server.Ip)
 	if err != nil {
 		log.Fatal("failed to listen")
 	}

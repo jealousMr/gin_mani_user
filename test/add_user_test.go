@@ -13,7 +13,7 @@ func TestAddUser(t *testing.T) {
 		UserInfo: &pb_mani.UserInfo{
 			UserId:    "test uid",
 			NickName:  "nick",
-			AvatarUrl: "ava2",
+			AvatarUrl: "ava",
 			Gender:    1,
 			Country:   "ar",
 			UserState: 1,
