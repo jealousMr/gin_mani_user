@@ -4,7 +4,6 @@ import (
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
-	"path/filepath"
 )
 
 type Configs struct {
@@ -22,8 +21,7 @@ type Configs struct {
 
 func GetConfig() *Configs{
 	config := &Configs{}
-	absPath, _ := filepath.Abs("/Users/mjea/go/src/gin_mani_center/conf/meta.yaml")
-	content, err := ioutil.ReadFile(absPath)
+	content, err := ioutil.ReadFile("/Users/mjea/go/src/gin_mani_user/conf/meta.yaml")
 	if err != nil {
 		log.Fatalf("解析config.yaml读取错误: %v", err)
 	}
