@@ -31,3 +31,28 @@ func AddAndUpdateUserInfo(ctx context.Context, req *pb_mani.AddAndUpdateUserInfo
 	}
 	return resp, nil
 }
+
+func checkQueryUserInfoByIds(req *pb_mani.QueryUserInfoByIdsReq) error {
+	if req.IdList == nil || len(req.IdList) == 0 {
+		return errors.New(util.MsgParamError)
+	}
+	return nil
+}
+
+func QueryUserInfoByIds(ctx context.Context, req *pb_mani.QueryUserInfoByIdsReq) (resp *pb_mani.QueryUserInfoByIdsResp, err error) {
+	resp = &pb_mani.QueryUserInfoByIdsResp{}
+	defer func() {
+		resp.BaseResp = util.BuildBaseResp(err, "")
+	}()
+	if err = checkQueryUserInfoByIds(req); err != nil {
+		logx.Errorf("QueryUserInfoByIds checkQueryUserInfoByIds error")
+		return resp, err
+	}
+	users, err := logic.GetUserByIds(ctx, req.IdList)
+	if err != nil {
+		logx.Errorf("QueryUserInfoByIds error:%v", err)
+		return resp, err
+	}
+	resp.Users = users
+	return
+}

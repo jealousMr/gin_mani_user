@@ -1,0 +1,99 @@
+syntax = "proto3";
+import "common.proto";
+package pb_mani;
+
+enum FileAction{
+  unknown_file_action = 0;
+  default_all_action = 1;
+  open_all_action = 2;
+  default_image_action = 3;
+}
+
+message FileUriToServerReq{
+  string file_name = 1;
+  bytes files = 2;
+  FileAction file_action = 3;
+  Base base = 255;
+}
+
+message FileUriToServerResp{
+  string file_name = 1;
+  string save_url = 2;
+  BaseResp base_resp = 255;
+}
+
+enum CrmType{
+  unknown_crm = 0;
+  user_crm = 1;
+  sys_crm = 2;
+}
+
+message CrmUrl {
+  string tag = 1;
+  string url = 2;
+  string name = 3;
+  CrmType crm_type = 4;
+}
+
+message FileUriToCrmReq{
+  repeated CrmUrl crm_list = 1;
+  FileAction file_action = 2;
+  Base base = 255;
+}
+
+message FileUriToCrmResp{
+  map<string,string> tag_url_map = 1;
+  BaseResp base_resp = 255;
+}
+
+message CreateTaskReq{
+  Task task = 1;
+  Base base = 255;
+}
+
+message CreateTaskResp{
+  string task_id = 1;
+  BaseResp base_resp = 255;
+}
+
+message QueryTaskByConditionReq{
+  string task_id = 1;
+  string rule_id = 2;
+  ExecuteState execute_state = 3;
+  Base base = 255;
+}
+
+message QueryTaskByConditionResp{
+  repeated Task task_list = 1;
+  BaseResp base_resp = 255;
+}
+
+message UpdateTaskReq{
+  Task task = 1;
+  Base base = 255;
+}
+
+message UpdateTaskResp{
+  BaseResp base_resp = 255;
+}
+
+message GetTaskByRulesReq{
+  repeated string rule_list = 1;
+  Base base = 255;
+}
+
+message GetTaskByRulesResp{
+  map<string,Task> rule_task_map = 1;
+  BaseResp base_resp = 255;
+}
+
+service GinEngineService{
+  rpc FileUriToServer(FileUriToServerReq)returns(FileUriToServerResp); // 获得文件的存储位置
+  rpc FileUriToCrm(FileUriToCrmReq) returns (FileUriToCrmResp); // 将内部地址转化为前端地址
+
+  rpc CreateTask(CreateTaskReq) returns(CreateTaskResp);
+  rpc QueryTaskByCondition(QueryTaskByConditionReq) returns (QueryTaskByConditionResp);
+  rpc UpdateTask(UpdateTaskReq) returns(UpdateTaskResp);
+
+  rpc GetTaskByRules(GetTaskByRulesReq) returns(GetTaskByRulesResp);
+}

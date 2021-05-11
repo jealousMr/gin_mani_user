@@ -12,7 +12,43 @@ message AddAndUpdateUserInfoResp{
   BaseResp base_resp = 255;
 }
 
+message QueryUserInfoByIdsReq{
+  repeated string id_list = 1;
+  Base base = 255;
+}
+message QueryUserInfoByIdsResp{
+  repeated UserInfo users = 1;
+  BaseResp base_resp = 255;
+}
+
+message AddUserRecordReq{
+  UserRecord user_record = 1;
+  Base base = 255;
+}
+
+message AddUserRecordResp{
+  BaseResp base_resp = 255;
+}
+
+message QueryUserRecordReq{
+  string user_id = 1;
+  string rule_id = 2;
+  int64 page_no = 3;
+  int64 page_size = 4;
+  Base base = 255;
+}
+
+message QueryUserRecordResp{
+  repeated UserRecord user_record_list = 1;
+  PageStruct page = 2;
+  BaseResp base_resp = 255;
+}
+
 
 service GinUserService{
   rpc AddAndUpdateUserInfo(AddAndUpdateUserInfoReq) returns(AddAndUpdateUserInfoResp);
+  rpc QueryUserInfoByIds(QueryUserInfoByIdsReq) returns(QueryUserInfoByIdsResp);
+
+  rpc  AddUserRecord(AddUserRecordReq) returns(AddUserRecordResp);
+  rpc QueryUserRecord(QueryUserRecordReq) returns(QueryUserRecordResp);
 }
